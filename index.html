@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ประกาศผลการคัดเลือกคณะกรรมการที่ปรึกษาสภานักเรียน 2569</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Sarabun',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+padding:20px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.logo{
+width:180px;
+height:180px;
+object-fit:contain;
+display:block;
+margin:auto;
+margin-bottom:20px;
+}
+
+h1{
+text-align:center;
+color:#e67e22;
+font-size:42px;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+line-height:1.8;
+color:#666;
+font-size:20px;
+margin-bottom:35px;
+}
+
+.search-box{
+display:flex;
+gap:10px;
+margin-bottom:25px;
+}
+
+.search-box input{
+flex:1;
+padding:16px;
+font-size:20px;
+border:2px solid #ddd;
+border-radius:12px;
+}
+
+.search-box button{
+padding:16px 30px;
+border:none;
+background:#e67e22;
+color:white;
+font-size:20px;
+font-weight:600;
+border-radius:12px;
+cursor:pointer;
+}
+
+.search-box button:hover{
+background:#d35400;
+}
+
+.result{
+padding:25px;
+border-radius:15px;
+line-height:1.9;
+font-size:18px;
+}
+
+.pass{
+background:#eafaf1;
+border-left:8px solid #27ae60;
+}
+
+.fail{
+background:#fff5f5;
+border-left:8px solid #e74c3c;
+}
+
+.name{
+font-size:26px;
+font-weight:700;
+margin-bottom:10px;
+}
+
+.footer{
+text-align:center;
+margin-top:35px;
+color:#777;
+}
+
+@media(max-width:700px){
+
+.container{
+padding:25px;
+}
+
+h1{
+font-size:28px;
+}
+
+.search-box{
+flex-direction:column;
+}
+
+.search-box button{
+width:100%;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<h1>ประกาศผลการคัดเลือก</h1>
+
+<div class="subtitle">
+คณะกรรมการที่ปรึกษาสภานักเรียน<br>
+โรงเรียนหนองสูงสามัคคีวิทยา<br>
+ประจำปีการศึกษา 2569
+</div>
+
+<div class="search-box">
+<input id="studentId" placeholder="กรอกรหัส เช่น 3.01">
+<button onclick="checkResult()">ตรวจสอบผล</button>
+</div>
+
+<div id="result"></div>
+
+<div class="footer">
+งานส่งเสริมประชาธิปไตย โรงเรียนหนองสูงสามัคคีวิทยา
+</div>
+
+</div>
+
+<script>
+
+const students = [
+  {id:"3.01",name:"นายณัฐพัตน์ อาจวิชัย"},
+{id:"3.02",name:"นายกฤติพงษ์ ปัททุม"},
+{id:"3.03",name:"นางสาวภาสินี สุวรรณพันธ์"},
+{id:"3.04",name:"นายศุภวิชญ์ น้อยทรง"},
+{id:"3.05",name:"นางสาวเณศรา นวลอาสา"},
+{id:"3.06",name:"นางสาวตรีณัฐชา หลักหาญ"},
+{id:"3.07",name:"นายฐิติภักดิ์ นงลักษณ์"},
+{id:"3.08",name:"นายอนันดา แก้วถวิล"},
+{id:"3.09",name:"นางสาวกวินตรา น้อยทรง"},
+{id:"3.10",name:"นางสาวภัทรวรินทร์ เสียงเย็น"},
+{id:"3.11",name:"นางสาวปิญาวรรณ วังวงษ์"},
+{id:"3.12",name:"นางสาวจิราภา ศรีศาลาแสง"},
+{id:"3.13",name:"นายพลธร ลครไทย"},
+{id:"3.14",name:"นายทชียอนกรณรงณ์ เบนเยอร์มินิ"},
+{id:"3.15",name:"นายเกียรติศักดิ์ อุคำพันธ์"},
+{id:"3.16",name:"นายวัลสันต์ สีโย"},
+{id:"3.17",name:"นางสาวรพีพร อ่อนบุญ"},
+{id:"3.18",name:"นายคชรัตน์ รัชอินทร์"},
+{id:"3.19",name:"นางสาวอนุนดา อาจวิชัย"},
+{id:"3.20",name:"นายปุณณวิชญ์ คำทอง"},
+{id:"3.21",name:"นางสาวปุณยาพร แสนสุข"},
+{id:"3.22",name:"นางสาวเกียรติสิริพร ศิริ"},
+{id:"3.23",name:"นางสาวอณิชานันท์ แสนสุข"},
+{id:"3.24",name:"นายยศพนธ์ แสนสุข"},
+{id:"3.25",name:"นางสาวบุพชาด ปัททุม"},
+{id:"3.26",name:"นางสาวกัญญาณัฐ สุโพธิ์"},
+{id:"3.27",name:"นางสาวฐิติภัทร ปัททุม"},
+{id:"3.28",name:"นายนนทภูมิ อาจวิชัย"},
+{id:"3.29",name:"นายธนาพิพัฒน์ โคตรพันธ์"},
+{id:"3.30",name:"นายปกป้อง ปันต๊ะ"},
+{id:"3.31",name:"นายธีระพัฒน์ แน่นอุดร"},
+{id:"3.32",name:"นายนันทพงษ์ คนคล่อง"},
+{id:"3.33",name:"นางสาวณัฐฐานันท์ อาจวิชัย"},
+{id:"3.34",name:"นางสาวนภาพรรณ พุทธเสน"},
+{id:"3.35",name:"นางสาวปิยนันท์ ษาวงศ์"},
+{id:"3.36",name:"นางสาวณัฐณิชา ปัททุม"},
+{id:"3.37",name:"นางสาวกฤติมา กระจ่างจิตร์"},
+{id:"3.38",name:"นายธีรศักดิ์ ทัศนาลัย"},
+{id:"3.39",name:"นายฉัตรมงคล ทองดี"},
+{id:"3.40",name:"นางสาวธิดาจันทร์ จันทร์เจิม"},
+{id:"3.41",name:"นางสาวณัฐชยาน์ น้อยทรง"},
+{id:"3.42",name:"นายศรัณย์ภัทร ศิริคุณ"},
+{id:"3.43",name:"นายอภิณัฐพรชัย บุรัตน์"},
+{id:"3.44",name:"นายภัทรกร วิเศษโวหาร"},
+{id:"3.45",name:"นายวุฒิชัย ผิวขำ"},
+{id:"3.46",name:"นายสันติ อินไชยา"},
+{id:"3.47",name:"นางสาวศิริพร โขลา"},
+{id:"3.48",name:"นายภูริ มูลสุวรรณ"},
+{id:"3.49",name:"นายณัฐชนน นาคแก้ว"},
+{id:"3.50",name:"นางสาวชุติกาญน์ วังคะฮาด"},
+{id:"3.51",name:"นางสาวอเล็กซานดร้า กนกพิชญ์ ภูสแดร์"},
+{id:"3.52",name:"นางสาวอภัญญิ ลือเลิศสกุลชัย"},
+{id:"3.53",name:"นางสาวกุลธิดา แดงงาม"},
+{id:"3.54",name:"นายธนวินท์ เสียงล้ำ"},
+{id:"3.55",name:"นางสาวภัทรวดี คิอินทิ"},
+{id:"3.56",name:"นางสาวจิรัชยาพร ไตรงามสม"},
+{id:"3.57",name:"นางสาวหทัยชนก จูมแพง"},
+{id:"3.58",name:"นางสาวสุดารัตน์ ทานะเวช"},
+{id:"3.59",name:"นางสาวชนกานต์ ธรรมใจบุญ"},
+{id:"3.60",name:"นางสาวภัณฑิรา วังคะฮาต"}
+];
+  const passedIds = [
+"3.01",
+"3.03",
+"3.04",
+"3.12",
+"3.19",
+"3.21",
+"3.30",
+"3.13",
+"3.35",
+"3.37",
+"3.42",
+"3.43",
+"3.48",
+"3.46",
+"3.55",
+"3.58",
+"3.59",
+"3.22",
+"3.45",
+"3.20"
+];
+
+function checkResult(){
+
+const id = document.getElementById("studentId").value.trim();
+const student = students.find(s => s.id === id);
+const result = document.getElementById("result");
+
+if(!student){
+result.innerHTML = `
+<div class="result fail">
+<h2>กรุณาตรวจสอบรหัสอีกครั้ง</h2>
+<p>ไม่พบข้อมูลในระบบ</p>
+</div>
+`;
+return;
+}
+
+if(passedIds.includes(id)){
+
+result.innerHTML = `
+<div class="result pass">
+
+<h2>🎉 ขอแสดงความยินดี 🎉</h2>
+
+<div class="name">${student.name}</div>
+
+<p>
+ได้รับการคัดเลือกเป็นคณะกรรมการที่ปรึกษาสภานักเรียน
+ประจำปีการศึกษา 2569
+</p>
+
+<p>
+ขอแสดงความยินดีและขออวยพรให้ประสบความสำเร็จ
+ในการศึกษา การทำกิจกรรม และเป้าหมายในอนาคต
+</p>
+
+</div>
+`;
+
+}else{
+
+result.innerHTML = `
+<div class="result fail">
+
+<h2>ขอขอบคุณสำหรับความทุ่มเท</h2>
+
+<div class="name">${student.name}</div>
+
+<p><strong>ผลการพิจารณา : ไม่ได้รับการคัดเลือก</strong></p>
+
+<p>
+การไม่ได้รับเลือกในครั้งนี้ ไม่ได้หมายความว่าคุณไม่มีคุณค่า
+หรือมีความสามารถน้อยกว่าใคร
+</p>
+
+<p>
+ทุกความทุ่มเท การเสียสละ และผลงานที่ได้สร้างไว้ในฐานะ
+คณะกรรมการสภานักเรียน ประจำปีการศึกษา 2568
+ยังคงเป็นประโยชน์และเป็นความภาคภูมิใจของโรงเรียนเสมอ
+</p>
+
+<p>
+Dek70 กำลังก้าวเข้าสู่ช่วงสำคัญของชีวิต
+ขอให้นำประสบการณ์ที่ได้รับไปต่อยอดสู่การศึกษาต่อ
+การสร้าง Portfolio และการเตรียมความพร้อมสู่มหาวิทยาลัย
+</p>
+
+<p>
+ขอให้ภูมิใจในเส้นทางที่ได้เดินมา
+และก้าวต่อไปสู่เป้าหมายใหม่ด้วยความมั่นใจ
+</p>
+
+</div>
+`;
+}
+
+}
+  </script>
+
+</body>
+</html>
